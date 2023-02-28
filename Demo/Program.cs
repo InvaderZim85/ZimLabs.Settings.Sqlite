@@ -2,6 +2,7 @@
 using Serilog;
 using System.Diagnostics;
 using ZimLabs.Settings.Sqlite;
+using ZimLabs.Settings.Sqlite.Models;
 
 namespace Demo;
 
@@ -39,7 +40,14 @@ internal static class Program
 
             // Add an entry with an int
             Log.Information("Add another value");
-            await settingsManager.AddEntryAsync(2, 100, "Some other description");
+            var secondEntry = await settingsManager.AddEntryAsync(new SettingsEntry
+            {
+                Id = 1,
+                Key = 2,
+                Value = "10",
+                Description = "Some description"
+            });
+            Log.Information("Id of the entry: {id}", secondEntry.Id);
 
             // Load the entry
             var intValue = await settingsManager.LoadValueAsync<int>(2);
@@ -73,6 +81,14 @@ internal static class Program
                 Log.Information("Id {id}, Key {key}, Value {value}, Description: {description}", entry.Id,
                     entry.Key, entry.Value, entry.Description);
             }
+
+            // Add a new entry (this will cause an error because the key is already in use)
+            var tmpEntry = await settingsManager.AddEntryAsync(new SettingsEntry
+            {
+                Key = 2,
+                Value = "10",
+                Description = "Some description"
+            });
         }
         catch (Exception ex)
         {

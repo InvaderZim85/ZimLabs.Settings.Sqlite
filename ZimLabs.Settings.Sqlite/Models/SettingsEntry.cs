@@ -18,10 +18,10 @@ public sealed class SettingsEntry
     /// <summary>
     /// Gets or sets the value of the entry
     /// </summary>
-    public string Value { get; set; }
+    public string Value { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the description of the entry
     /// </summary>
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
 }

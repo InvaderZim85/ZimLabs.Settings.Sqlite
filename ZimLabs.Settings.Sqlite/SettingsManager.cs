@@ -91,6 +91,7 @@ public sealed class SettingsManager
     /// <param name="value">The value of the entry</param>
     /// <param name="description">The description of the entry</param>
     /// <returns>The created entry</returns>
+    /// <exception cref="DbUpdateException">Will be thrown when for example the desired key already exists</exception>
     public async Task<SettingsEntry> AddEntryAsync(int key, string value, string description)
     {
         return await AddEntryAsync(new SettingsEntry
@@ -107,6 +108,7 @@ public sealed class SettingsManager
     /// <param name="value">The value of the entry</param>
     /// <param name="description">The description of the entry</param>
     /// <returns>The created entry</returns>
+    /// <exception cref="DbUpdateException">Will be thrown when for example the desired key already exists</exception>
     public async Task<SettingsEntry> AddEntryAsync(int key, object value, string description)
     {
         return await AddEntryAsync(new SettingsEntry
@@ -122,9 +124,13 @@ public sealed class SettingsManager
     /// </summary>
     /// <param name="entry">The entry which should be added</param>
     /// <returns>The created entry</returns>
+    /// <exception cref="DbUpdateException">Will be thrown when for example the desired key already exists</exception>
     public async Task<SettingsEntry> AddEntryAsync(SettingsEntry entry)
     {
         await using var context = new SettingsContext(_databaseName);
+
+        // Remove the id if any was provided
+        entry.Id = 0;
 
         var insertEntry = (SettingsDbModel) entry;
         await context.Settings.AddAsync(insertEntry);
