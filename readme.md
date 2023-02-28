@@ -3,9 +3,11 @@
 **Content**
 
 - [General](#general)
-- [Example](#example
+- [Example](#example)
 
 ## General
+
+[![Nuget](https://img.shields.io/nuget/v/ZimLabs.Settings.Sqlite)](https://www.nuget.org/packages/ZimLabs.Settings.Sqlite) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/InvaderZim85/ZimLabs.Settings.Sqlite)](https://github.com/InvaderZim85/ZimLabs.Settings.Sqlite/releases)
 
 This library provides functions to manage settings using a SQLite database.
 
@@ -25,6 +27,7 @@ var settingsManager = new SettingsManager("NameOfMyDatabase");
 var entry = await settingsManager.AddEntryAsync(1, "TheValue", "Some description");
 
 // Add another entry
+// Note: If you specify an id, it will be removed during the add process
 var secondEntry = await settingsManager.AddEntryAsync(new SettingsEntry
 {
     Key = 1,
